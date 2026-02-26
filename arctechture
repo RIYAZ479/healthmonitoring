@@ -1,0 +1,397 @@
+You are a senior full-stack engineer and UI/UX designer. Build a production-ready, 
+hackathon-winning web application called:
+
+"ArogyaNet — Smart Community Health Monitoring and Early Warning System 
+for Water-Borne Diseases in Rural Northeast India"
+
+═══════════════════════════════════════════════════════════
+DESIGN PHILOSOPHY — REAL-TIME, HOSPITAL-GRADE UI
+═══════════════════════════════════════════════════════════
+
+Inspired by: WHO DHIS2 dashboard, Indian NHM portals, Johns Hopkins 
+COVID tracker, and Apollo Hospitals patient portal.
+
+Color System:
+  Primary:     #0a7e6e (deep teal — trust, health)
+  Accent:      #f5a623 (amber — warnings)
+  Danger:      #e63946 (red — critical alerts)
+  Background:  #faf7f2 (warm sand — not cold white)
+  Dark Nav:    #054d43
+
+Typography:
+  Headings:    Sora (Google Fonts) — modern, readable
+  Body text:   Noto Serif — warm, credible
+  Data/stats:  Monospace for numbers
+
+UI Components (use real hospital dashboard patterns):
+  - Animated live pulse dot on nav (green = system online)
+  - Real-time scrolling SMS alert ticker at top
+  - Glassmorphism cards for KPI metrics
+  - Color-coded risk badges (Low/Medium/High)
+  - Horizontal bar charts for weekly case trends
+  - 7x5 grid heatmap for geographic disease intensity
+  - Circular gauge for AI confidence score
+  - Sidebar page-dot navigation (fixed right)
+  - Sticky top nav with active alert count button
+  - Modal popup for alert acknowledgement
+
+═══════════════════════════════════════════════════════════
+TECH STACK
+═══════════════════════════════════════════════════════════
+
+Frontend:
+  - React 18 + TypeScript
+  - Tailwind CSS (utility-first)
+  - Recharts (charts/graphs)
+  - Framer Motion (animations)
+  - Leaflet.js (interactive map of Northeast India)
+  - i18next (multilingual: Assamese, Bodo, Hindi, English, 
+    Mizo, Manipuri)
+  - PWA + Service Worker (offline support)
+
+Backend:
+  - Django REST Framework (Python) — main API
+  - Node.js + Express — real-time WebSocket server
+  - Celery + Redis — background tasks (alert dispatching)
+  - JWT Authentication (ASHA workers / health officers / admin)
+
+ML/AI (Python):
+  - Scikit-learn: Logistic Regression (outbreak probability),
+    Random Forest (symptom pattern detection),
+    DBSCAN (geographic hotspot clustering)
+  - Prophet / ARIMA: seasonal outbreak forecasting
+  - TensorFlow/Keras: LSTM for time-series water quality prediction
+  - Output: Risk score (0–100%) + confidence % + 
+    predicted district + days-to-outbreak estimate
+
+Database:
+  - PostgreSQL: patients, cases, alerts, users, doctors
+  - MongoDB: IoT sensor time-series data
+  - Firebase Realtime DB: offline mobile sync for ASHA workers
+  - Redis: cache + pub/sub for live alerts
+
+IoT Integration:
+  - ESP32 / Arduino sensors → MQTT broker → 
+    Python ingestion service → PostgreSQL + MongoDB
+  - Sensors: pH, turbidity (NTU), temperature (°C), 
+    E. coli (CFU/ml), rainfall
+
+Deployment:
+  - Docker + Docker Compose
+  - AWS EC2 / GCP (backend), Vercel (frontend)
+  - GitHub Actions CI/CD
+  - SSL + HTTPS + DPDPA 2023 compliant
+
+═══════════════════════════════════════════════════════════
+PAGES — BUILD ALL 11
+═══════════════════════════════════════════════════════════
+
+PAGE 1 — HOMEPAGE (/)
+  Hero section:
+    - Bold headline: "Protecting Rural Lives from Water-Borne Diseases"
+    - Animated sub-headline with typewriter effect
+    - 4 live KPI counters: Villages Monitored, Early Detection Days,
+      IoT Sensors Online, Districts Covered
+    - Two CTA buttons: "View Live Dashboard" + "Report a Case"
+    - Floating map of Northeast India with blinking hotspot markers
+  Emergency Contact Bar:
+    - Toll-free helpline: 1800-XXX-XXXX
+    - SMS shortcode: "REPORT [village] [symptom] to 567XX"
+    - 24/7 WhatsApp bot link
+  Services highlight strip (8 icons with labels)
+  Quick navigation cards to all major sections
+
+PAGE 2 — LIVE DASHBOARD (/dashboard)
+  Top KPI row (4 cards):
+    - Active Cases Today (with % change arrow)
+    - Water Sources Tested (safe vs flagged count)
+    - IoT Sensors Online (X/total)
+    - ASHA Reports Last 24h
+  
+  Tab switcher: Overview | Water Quality | Disease Tracker | AI Predictions
+  
+  Main grid layout:
+    Row 1:
+      - Weekly case trend bar chart (7 days, color-coded by severity)
+      - Geographic heatmap (7x5 grid, 5 intensity levels)
+    Row 2:
+      - Disease breakdown table:
+          Columns: Disease | Cases | Districts | Trend | Risk | Action
+          Rows: Cholera, Diarrhea, Typhoid, Hepatitis A, Dysentery
+          Action buttons: Deploy / Monitor / Watch
+      - Water quality gauge panel:
+          pH Level (progress bar, amber if <6.5)
+          Turbidity NTU (red if >1)
+          E. coli CFU/ml (red if >0)
+          Temperature °C
+    Row 3:
+      - AI Risk Score card (dark teal bg, large % number, 
+        model confidence, predicted region, days estimate)
+      - Intervention tracker (deployed camps, ORS kits sent, 
+        chlorine distributed)
+
+  Real-time updates via WebSocket — data refreshes every 30 seconds
+  "Last updated: X seconds ago" timestamp
+
+PAGE 3 — QUICK ALERT SYSTEM (/alerts)
+  Left panel — Active Alert Feed:
+    - Alert items with: severity color, icon, title, description, 
+      timestamp, district tag
+    - Filter by: All | High | Medium | Low | Resolved
+    - "Acknowledge" button on each alert
+  
+  Right panel — Report a Case Form:
+    Fields: Reporter Name, Village/Block, District, GPS coordinates 
+    (auto-detect), Symptom cluster (dropdown), Number of cases, 
+    Age group, Water source suspected, Photo upload (test strip)
+    Submit → triggers instant alert to District Health Officer
+  
+  Alert dispatch log (who was notified, when, channel used)
+
+PAGE 4 — ABOUT US (/about)
+  Hospital/clinic history timeline (2021–present)
+  Mission statement + Vision statement (card format)
+  Stats row: Founded, Districts, ASHA Workers Trained, People Protected
+  Accreditations: NHM Assam, WHO SEARO, ICMR, Govt. of Assam logos
+  Management team cards (3 senior officials with photos)
+
+PAGE 5 — DOCTORS / MEDICAL STAFF (/doctors)
+  Search + filter bar (by specialization, availability, district)
+  Doctor cards grid (3 columns):
+    Each card: Avatar emoji, Name, Qualification, Specialization, 
+    Experience, Consulting timings, Availability badge (green/red),
+    "Book Teleconsult" button
+  
+  Doctors listed:
+    - Epidemiologist, Infectious Disease Specialist,
+    - Environmental Health, Pediatrician,
+    - General Medicine, Microbiologist
+
+PAGE 6 — PATIENT PORTAL (/portal)
+  Login/Register form (ASHA worker or patient)
+  After login:
+    - My Reported Cases (table with status)
+    - Water test results history
+    - Vaccination reminders
+    - Offline sync status indicator
+    - Download health record (PDF)
+
+PAGE 7 — HEALTH INFORMATION (/education)
+  Language selector: 🇮🇳 Assamese | Bodo | Hindi | English | Mizo | Manipuri
+  Content cards with:
+    - Hygiene education videos (embedded YouTube placeholder)
+    - Safe water practices (illustrated cards)
+    - Handwashing tutorial (step-by-step with images)
+    - Symptom awareness guide
+    - Vaccination schedule
+  Audio-friendly: large text, icon-first layout
+
+PAGE 8 — CONTACT (/contact)
+  Contact form: Name, District, Email/Phone, Query type, Message
+  Contact info cards:
+    - Emergency helpline (24/7)
+    - Office address: Guwahati, Assam
+    - Email address
+    - SMS reporting shortcode
+    - WhatsApp bot number
+  Embedded Google Map (placeholder)
+  Partner/NGO onboarding CTA
+
+PAGE 9 — TESTIMONIALS (/testimonials)
+  3-column card grid:
+    Card format: 5-star rating, italic quote, author avatar, 
+    name, role, district
+  Testimonials from:
+    - District Health Officer
+    - ASHA Worker
+    - Village Leader
+    - NGO Coordinator
+    - State Health Secretary
+
+PAGE 10 — PRIVACY & SECURITY (/privacy)
+  Sections:
+    - Data Collection Policy (what we collect and why)
+    - Patient Data Anonymization (how it works)
+    - DPDPA 2023 Compliance statement
+    - TLS 1.3 encryption notice
+    - Data retention policy
+    - User rights (access, deletion, correction)
+    - Contact for data queries
+
+PAGE 11 — ONLINE SERVICES / CRUD (/admin)
+  Full admin panel (role: District Health Officer / Admin):
+  
+  CRUD Tables with Add/Edit/Delete/View:
+    - Cases Management (create, update, close, export)
+    - Doctors Management (add/edit/remove doctors)
+    - Alert Management (create manual alert, edit, resolve)
+    - Water Sources Registry (add sensor location, readings)
+    - ASHA Workers (register, assign district, deactivate)
+    - Villages Registry (add village, assign block/district)
+  
+  Export buttons: Download CSV / PDF per table
+  Audit log: who changed what, when
+
+═══════════════════════════════════════════════════════════
+BACKEND API ENDPOINTS — BUILD ALL
+═══════════════════════════════════════════════════════════
+
+Auth:
+  POST /api/auth/login
+  POST /api/auth/register
+  POST /api/auth/refresh-token
+
+Cases:
+  GET    /api/cases             (list, filterable by district/disease/date)
+  POST   /api/cases             (report new case)
+  PUT    /api/cases/:id         (update case status)
+  DELETE /api/cases/:id         (admin only)
+
+Alerts:
+  GET    /api/alerts            (feed, filterable by severity)
+  POST   /api/alerts            (create manual alert)
+  PUT    /api/alerts/:id/acknowledge
+  POST   /api/alerts/:id/dispatch   (send SMS/email/push)
+
+Water Quality:
+  GET    /api/water/sensors          (all sensor readings)
+  POST   /api/water/manual-report    (ASHA manual upload)
+  GET    /api/water/history/:sensorId
+
+AI/ML:
+  GET    /api/ml/risk-score/:districtId   (current outbreak risk)
+  GET    /api/ml/forecast/:districtId     (7-day prediction)
+  GET    /api/ml/hotspots                 (geographic clustering)
+
+Doctors:
+  GET    /api/doctors
+  POST   /api/doctors          (admin add)
+  PUT    /api/doctors/:id
+  DELETE /api/doctors/:id
+
+Dashboard:
+  GET    /api/dashboard/kpis          (live KPI numbers)
+  GET    /api/dashboard/heatmap       (grid data for map)
+  GET    /api/dashboard/trends        (7-day chart data)
+
+WebSocket:
+  ws://host/live     (real-time case + alert updates)
+
+═══════════════════════════════════════════════════════════
+ML MODEL SPECIFICATIONS
+═══════════════════════════════════════════════════════════
+
+Model 1 — Outbreak Probability (Logistic Regression):
+  Input features:
+    - Case count last 7 days per district
+    - Water contamination level (pH, turbidity, E. coli)
+    - Rainfall last 7 days (mm)
+    - Season (monsoon=1, dry=0)
+    - Population density
+    - Sanitation index score
+  Output: probability 0.0–1.0 + Low/Medium/High label
+
+Model 2 — Pattern Detection (Random Forest):
+  Input: symptom cluster + age group + water source + location
+  Output: likely disease classification + confidence %
+
+Model 3 — Seasonal Forecast (Prophet):
+  Input: 2 years historical case data by month + district
+  Output: predicted cases next 30/60/90 days + confidence interval
+
+Model 4 — Hotspot Clustering (DBSCAN):
+  Input: GPS coordinates of reported cases (last 30 days)
+  Output: cluster polygons + risk intensity per cluster
+
+Model endpoint response format:
+  {
+    "district": "Dhemaji",
+    "risk_level": "HIGH",
+    "risk_score": 74,
+    "confidence": 89,
+    "predicted_outbreak_in_days": 5,
+    "dominant_disease": "Cholera",
+    "trigger_factors": ["water_contamination", "rainfall_spike"],
+    "recommended_action": "Deploy medical camp immediately"
+  }
+
+═══════════════════════════════════════════════════════════
+REAL-TIME FEATURES — MUST IMPLEMENT
+═══════════════════════════════════════════════════════════
+
+1. Live alert ticker (scrolling marquee) with new cases
+2. WebSocket dashboard — auto-refresh every 30 seconds
+3. Animated counter increment when new cases reported
+4. Push notification on high-risk alert
+5. SMS dispatch via MSG91 API (India) on alert creation
+6. Offline PWA — ASHA worker can report without internet,
+   data syncs to Firebase when connection restored
+7. GPS auto-detect on reporting form
+8. Real-time "X users online" count in admin panel
+
+═══════════════════════════════════════════════════════════
+SPECIAL REQUIREMENTS FOR HACKATHON JUDGING
+═══════════════════════════════════════════════════════════
+
+✅ INNOVATION: Show AI risk score prominently on homepage
+✅ SOCIAL IMPACT: Every page references real NE India districts 
+   (Dhemaji, Majuli, Jorhat, Lakhimpur, Chirang, Karbi Anglong)
+✅ TECHNICAL DEPTH: ML model architecture diagram on About page
+✅ INCLUSIVITY: Language switcher visible on every page
+✅ SCALABILITY: Docker-compose.yml with all services
+✅ COMPLETENESS: All CRUD operations functional with toast 
+   notifications (success/error)
+✅ DEMO-READY: Seed database with 3 months of realistic 
+   fake data for all districts
+✅ MOBILE RESPONSIVE: All pages work on 320px–1440px screens
+✅ ACCESSIBILITY: WCAG 2.1 AA — aria-labels, keyboard nav, 
+   sufficient color contrast
+✅ SECURITY: Rate limiting, input sanitization, JWT expiry, 
+   CORS policy, no sensitive data in frontend
+
+═══════════════════════════════════════════════════════════
+SEED DATA — USE THESE REAL DETAILS
+═══════════════════════════════════════════════════════════
+
+Districts: Dhemaji, Lakhimpur, Majuli, Jorhat, Golaghat,
+           Karbi Anglong, Sivasagar, Chirang, Kokrajhar
+
+Diseases: Cholera, Typhoid, Diarrhea, Dysentery, 
+          Hepatitis A, Hepatitis E
+
+Water sources: Hand pump, River (Brahmaputra, Subansiri, 
+               Lohit), Open well, Tube well
+
+ASHA worker names (realistic NE India):
+  Meena Basumatary, Priya Borah, Ritu Teron, 
+  Lalthansangi Ralte, Sunita Mech
+
+Doctor names:
+  Dr. Arjun Hazarika (Epidemiologist),
+  Dr. Priya Devi Bora (Infectious Disease),
+  Dr. Ngangom Ibomcha (Environmental Health),
+  Dr. Manjula Boro (Microbiology),
+  Dr. Biren Gogoi (General Medicine)
+
+Hackathon demo scenario:
+  "15 diarrhea cases reported near hand pump HP-042 in 
+   Dhemaji within 3 days. IoT sensor reads turbidity 18.4 NTU 
+   and E. coli 220 CFU/ml. AI model flags HIGH RISK (74%). 
+   System auto-dispatches SMS to District Health Officer. 
+   Medical camp deployed within 6 hours."
+
+═══════════════════════════════════════════════════════════
+DELIVERABLES
+═══════════════════════════════════════════════════════════
+
+1. /frontend   — React app (fully functional, all 11 pages)
+2. /backend    — Django + Node.js APIs (all endpoints working)
+3. /ml         — Python ML models + training scripts + 
+                 /api/ml/* REST endpoints
+4. /iot        — Arduino/ESP32 sketch + MQTT ingestion script
+5. /docker     — docker-compose.yml (runs entire stack with 
+                 one command: docker-compose up)
+6. /seed       — SQL + JSON seed files for demo data
+7. README.md   — Setup guide, architecture diagram, 
+                 API docs, demo walkthrough
+
